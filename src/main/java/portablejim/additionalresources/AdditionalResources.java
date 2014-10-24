@@ -1,11 +1,9 @@
 package portablejim.additionalresources;
 
-import net.minecraft.init.Blocks;
-import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import net.minecraft.init.Blocks;
 
-@Mod(modid = AdditionalResources.MODID)
 public class AdditionalResources
 {
     public static final String MODID = "additionalresources";
