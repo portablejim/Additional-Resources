@@ -20,7 +20,7 @@ public class Ar_ModContainer extends DummyModContainer {
         ModMetadata metadata = getMetadata();
         metadata.modId = "additionalresources";
         metadata.name = "Additional Resources";
-        metadata.version = "0.0.1";
+        metadata.version = "0.0.2";
         metadata.authorList = Arrays.asList("Portablejim");
         metadata.description = "Load loose files as additional resources";
         metadata.url= "";
