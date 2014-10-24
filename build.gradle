@@ -77,6 +77,10 @@ artifacts {
     archives deobfJar
 }
 
+configurations {
+    deployerJars
+}
+
 uploadArchives {
     dependsOn 'reobf'
 
@@ -85,22 +89,24 @@ uploadArchives {
             logger.info("Pushing to maven repo")
 
             mavenDeployer {
-                repository(url: "file://localhost/" + project.file('repo').getAbsolutePath())
-            }
+                configuration = configurations.deployerJars
 
-            pom {
-                groupId = project.group
-                version = project.version
-                artifactId = project.archivesBaseName
-                packaging = 'jar'
-                description 'Additional Resources Mod'
+                repository(url: "file://localhost/home/public_html/maven.jamesmckay.id.au/htdocs/")
 
-                developers {
-                    developer {
-                        id 'portablejim'
-                        name 'portablejim'
-                        roles { role 'developer' }
-                    }
+                pom {
+                    groupId = project.group
+                    version = project.version
+                    artifactId = project.archivesBaseName
+                    packaging = 'jar'
+                    description 'Additional Resources Mod'
+
+                    /*developers {
+                        developer {
+                            id 'portablejim'
+                            name 'portablejim'
+                            roles { role 'developer' }
+                        }
+                    }*/
                 }
             }
         }
