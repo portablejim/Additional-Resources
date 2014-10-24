@@ -1,0 +1,108 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+apply plugin: 'forge'
+apply plugin: 'maven'
+
+ext.configfile = file "build.properties"
+configfile.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    //noinspection GrUnresolvedAccess
+    ext.config = new ConfigSlurper().parse prop
+}
+
+group= "portablejim.additionalresources" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+version = config.mod_version
+archivesBaseName = "additionalresources"
+
+minecraft {
+    version = config.minecraft_version + "-" + config.forge_version
+    runDir = "eclipse"
+}
+
+String buildNumber = "unknown"
+if(System.getenv("BUILD_NUMBER") != null) {
+    buildNumber = System.getenv("BUILD_NUMBER")
+}
+
+version = "${config.minecraft_version}_${config.mod_version}.${buildNumber}"
+
+dependencies { }
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        include 'version.properties'
+
+        // replace version and mcversion
+        expand 'version':project.config.mod_version, 'mcversion':project.config.minecraft_version, 'buildnumber': buildNumber
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+        exclude 'version.properties'
+    }
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'dev'
+}
+
+jar {
+    manifest {
+        attributes 'FMLCorePlugin': 'portablejim.additionalresources.AdditionalResourcesCorePlugin'
+    }
+
+}
+
+build.dependsOn deobfJar
+
+artifacts {
+    archives deobfJar
+}
+
+uploadArchives {
+    dependsOn 'reobf'
+
+    repositories {
+        if(project.hasProperty("pushMaven")) {
+            logger.info("Pushing to maven repo")
+
+            mavenDeployer {
+                repository(url: "file://localhost/" + project.file('repo').getAbsolutePath())
+            }
+
+            pom {
+                groupId = project.group
+                version = project.version
+                artifactId = project.archivesBaseName
+                packaging = 'jar'
+                description 'Additional Resources Mod'
+
+                developers {
+                    developer {
+                        id 'portablejim'
+                        name 'portablejim'
+                        roles { role 'developer' }
+                    }
+                }
+            }
+        }
+    }
+}

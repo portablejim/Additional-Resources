@@ -1,0 +1,16 @@
+[
+{
+  "modid": "additionalresources",
+  "name": "Additional Resources",
+  "description": "Adds loose files as resources.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Portablejim"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
