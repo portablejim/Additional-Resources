@@ -3,7 +3,7 @@ package portablejim.additionalresources;
 import java.io.File;
 
 public class Ar_Reference {
-    public static final String DATA_FOLDERNAME = "Additional_Resources";
+    public static final String DATA_FOLDERNAME = "mods-resourcepacks";
     public static File minecraftDirectory = new File("./");
     public static File corePluginLocation = null;
 
