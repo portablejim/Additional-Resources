@@ -19,13 +19,6 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created with IntelliJ IDEA.
- * User: james
- * Date: 24/10/14
- * Time: 8:07 PM
- * To change this template use File | Settings | File Templates.
- */
 public class LooseFilesResourcePack implements IResourcePack {
     ModContainer container;
     public LooseFilesResourcePack(ModContainer container) {
@@ -36,7 +29,7 @@ public class LooseFilesResourcePack implements IResourcePack {
     public InputStream getInputStream(ResourceLocation resourceLocation) throws IOException {
         BufferedInputStream stream = new BufferedInputStream(new NullInputStream(0));
         try {
-            File modFolder = new File(Ar_Reference.DATA_FOLDER, resourceLocation.getResourceDomain());
+            File modFolder = new File(Ar_Reference.getDataFolder(), resourceLocation.getResourceDomain());
             File targetFile = new File(modFolder, resourceLocation.getResourcePath());
             stream = new BufferedInputStream(new FileInputStream(targetFile));
         }
@@ -49,7 +42,7 @@ public class LooseFilesResourcePack implements IResourcePack {
     @Override
     public boolean resourceExists(ResourceLocation resourceLocation) {
         try {
-            File modFolder = new File(Ar_Reference.DATA_FOLDER, resourceLocation.getResourceDomain());
+            File modFolder = new File(Ar_Reference.getDataFolder(), resourceLocation.getResourceDomain());
             File targetFile = new File(modFolder, resourceLocation.getResourcePath());
             return targetFile.exists();
         }
@@ -61,16 +54,24 @@ public class LooseFilesResourcePack implements IResourcePack {
 
     @Override
     public Set getResourceDomains() {
-        if(!Ar_Reference.DATA_FOLDER.exists()) {
-            Ar_Reference.DATA_FOLDER.mkdirs();
+        if(!Ar_Reference.getDataFolder().exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            Ar_Reference.getDataFolder().mkdirs();
         }
 
         Set<String> modNames = new HashSet<String>();
-        File configFolder = Ar_Reference.DATA_FOLDER;
-        for(File file : configFolder.listFiles()) {
-            if(file.isDirectory()) {
-                modNames.add(file.getName());
+
+        try {
+            File configFolder = Ar_Reference.getDataFolder();
+            //noinspection ConstantConditions
+            for(File file : configFolder.listFiles()) {
+                if(file.isDirectory()) {
+                    modNames.add(file.getName());
+                }
             }
+        }
+        catch (Exception e) {
+            FMLLog.getLogger().error("Additional Resources: Error listing config folder files");
         }
 
         return modNames;
@@ -79,11 +80,13 @@ public class LooseFilesResourcePack implements IResourcePack {
     @Override
     public IMetadataSection getPackMetadata(IMetadataSerializer metadataSerializer, String p_135058_2_) throws IOException {
         String fakePackMeta = "" +
-                " 'pack': { \n" +
-                "     'description': 'Additional resource files',\n" +
-                "     'pack_format': 1\n" +
+                "{\n" +
+                "  'pack': { \n" +
+                "    'description': 'Additional resource files',\n" +
+                "    'pack_format': 1\n" +
+                "  }\n" +
                 "}";
-        fakePackMeta.replaceAll("'", "\"");
+        fakePackMeta = fakePackMeta.replaceAll("'", "\"");
         JsonObject fakePackMetaJson = new JsonParser().parse(fakePackMeta).getAsJsonObject();
 
         return metadataSerializer.parseMetadataSection(p_135058_2_, fakePackMetaJson);

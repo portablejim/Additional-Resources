@@ -14,13 +14,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.util.Arrays;
 
-/**
- * Created with IntelliJ IDEA.
- * User: james
- * Date: 24/10/14
- * Time: 7:18 PM
- * To change this template use File | Settings | File Templates.
- */
 public class Ar_ModContainer extends DummyModContainer {
     public Ar_ModContainer() {
         super(new ModMetadata());
@@ -44,7 +37,7 @@ public class Ar_ModContainer extends DummyModContainer {
 
     @Override
     public File getSource() {
-        return Ar_CorePlugin.corePluginLocation;
+        return Ar_Reference.corePluginLocation;
     }
 
     @Override
@@ -52,11 +45,13 @@ public class Ar_ModContainer extends DummyModContainer {
         return LooseFilesResourcePack.class;
     }
 
+    @SuppressWarnings("UnusedDeclaration")
     @Subscribe
     public void preInit(FMLPreInitializationEvent event) {
         if(event.getSide() == Side.SERVER) {
-            File baseDir = new File(Ar_CorePlugin.minecraftDirectory, Ar_Reference.DATA_FOLDERNAME);
+            File baseDir = new File(Ar_Reference.minecraftDirectory, Ar_Reference.DATA_FOLDERNAME);
             try {
+                //noinspection ConstantConditions
                 for(File modDir : baseDir.listFiles()) {
                     try {
                         File testFile = new File(modDir, "lang/en_US.lang");
