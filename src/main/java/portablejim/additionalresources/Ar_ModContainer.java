@@ -20,12 +20,12 @@ package portablejim.additionalresources;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import cpw.mods.fml.common.DummyModContainer;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.LoadController;
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.relauncher.Side;
+import net.minecraftforge.fml.common.DummyModContainer;
+import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.fml.common.LoadController;
+import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import net.minecraft.util.StringTranslate;
 
 import java.io.File;
@@ -38,7 +38,7 @@ public class Ar_ModContainer extends DummyModContainer {
         ModMetadata metadata = getMetadata();
         metadata.modId = "additionalresources";
         metadata.name = "Additional Resources";
-        metadata.version = "0.0.2";
+        metadata.version = "0.1.0";
         metadata.authorList = Arrays.asList("Portablejim");
         metadata.description = "Load loose files as additional resources";
         metadata.url= "";
