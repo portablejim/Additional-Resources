@@ -26,7 +26,7 @@ import net.minecraftforge.fml.common.LoadController;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraft.util.StringTranslate;
+import net.minecraft.util.text.translation.LanguageMap;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -74,7 +74,7 @@ public class Ar_ModContainer extends DummyModContainer {
                     try {
                         File testFile = new File(modDir, "lang/en_US.lang");
                         if(testFile.exists() && testFile.canRead()) {
-                            StringTranslate.inject(new FileInputStream(testFile));
+                            LanguageMap.inject(new FileInputStream(testFile));
                         }
                     }
                     catch (Exception e) {
