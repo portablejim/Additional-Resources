@@ -42,7 +42,6 @@ public class Ar_ModContainer extends DummyModContainer {
         metadata.authorList = Arrays.asList("Portablejim");
         metadata.description = "Load loose files as additional resources";
         metadata.url= "";
-        metadata.updateUrl = "";
         metadata.screenshots = new String[0];
         metadata.logoFile = "";
     }
