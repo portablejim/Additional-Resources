@@ -43,16 +43,33 @@ public class LooseFilesResourcePack implements IResourcePack {
         this.container = container;
     }
 
+    // Minecraft likes to request the wrong file, try to correct it.
+    private ResourceLocation stripMcMeta(ResourceLocation input) {
+        final String mcm = ".mcmeta";
+        if(input != null && input.getResourcePath() != null && input.getResourcePath().length() > mcm.length() && input.getResourcePath().endsWith(mcm)) {
+            return new ResourceLocation(input.getResourceDomain(), input.getResourcePath().substring(0, input.getResourcePath().length()-mcm.length()));
+        }
+        return input;
+    }
+
     @Override
     public InputStream getInputStream(ResourceLocation resourceLocation) throws IOException {
         BufferedInputStream stream = new BufferedInputStream(new NullInputStream(0));
         try {
+            ResourceLocation strippedLocation = stripMcMeta(resourceLocation);
+            if(!resourceExists(resourceLocation) && resourceExists(strippedLocation)) {
+                resourceLocation = strippedLocation;
+            }
             File modFolder = new File(Ar_Reference.getDataFolder(), resourceLocation.getResourceDomain());
             File targetFile = new File(modFolder, resourceLocation.getResourcePath());
             stream = new BufferedInputStream(new FileInputStream(targetFile));
         }
         catch (Exception e) {
             FMLLog.getLogger().error("Error reading resource " + resourceLocation.toString());
+        }
+        ResourceLocation strippedLocation = stripMcMeta(resourceLocation);
+        if(strippedLocation != resourceLocation) {
+            return getInputStream(strippedLocation);
         }
         return stream;
     }
