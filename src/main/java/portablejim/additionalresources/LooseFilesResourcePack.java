@@ -20,11 +20,11 @@ package portablejim.additionalresources;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.minecraft.client.resources.data.MetadataSerializer;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.resources.data.IMetadataSection;
-import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.input.NullInputStream;
 
@@ -113,7 +113,7 @@ public class LooseFilesResourcePack implements IResourcePack {
     }
 
     @Override
-    public IMetadataSection getPackMetadata(IMetadataSerializer metadataSerializer, String p_135058_2_) throws IOException {
+    public <T extends IMetadataSection> T getPackMetadata(MetadataSerializer metadataSerializer, String metadataSectionName) throws IOException {
         String fakePackMeta = "" +
                 "{\n" +
                 "  'pack': { \n" +
@@ -124,7 +124,7 @@ public class LooseFilesResourcePack implements IResourcePack {
         fakePackMeta = fakePackMeta.replaceAll("'", "\"");
         JsonObject fakePackMetaJson = new JsonParser().parse(fakePackMeta).getAsJsonObject();
 
-        return metadataSerializer.parseMetadataSection(p_135058_2_, fakePackMetaJson);
+        return metadataSerializer.parseMetadataSection(metadataSectionName, fakePackMetaJson);
     }
 
     @Override
