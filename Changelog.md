@@ -1,3 +1,11 @@
+Changelog
+==========
+
+0.2.0
+------
+Changes:
+* Update resource pack format to 2, instead of 1 (should work better)
+* Confirmed working in 1.10.2 and 1.11.
 
 0.1.2
 ------
