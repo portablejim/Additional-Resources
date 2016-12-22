@@ -118,7 +118,7 @@ public class LooseFilesResourcePack implements IResourcePack {
                 "{\n" +
                 "  'pack': { \n" +
                 "    'description': 'Additional resource files',\n" +
-                "    'pack_format': 1\n" +
+                "    'pack_format': 2\n" +
                 "  }\n" +
                 "}";
         fakePackMeta = fakePackMeta.replaceAll("'", "\"");
