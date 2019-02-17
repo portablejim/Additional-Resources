@@ -10,7 +10,7 @@ loaderVersion="[24,)" #mandatory (24 is current forge version)
 # A URL to refer people to when problems occur with this mod
 #issueTrackerURL="http://my.issue.tracker/" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="https://minecraft.curseforge.com/projects/hardcore-cheater?gameCategorySlug=mc-mods&projectID=251471" #optional
+displayURL="https://minecraft.curseforge.com/projects/additional-resources" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
 #logoFile="command-heart.png" #optional
 # A text field displayed in the mod UI
