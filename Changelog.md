@@ -1,6 +1,12 @@
 Changelog
 ==========
 
+0.3.0
+-----
+Changes:
+* Brought to 1.13.2
+* Had a 'Ship of Theseus' (thought experiment) moment.
+
 0.2.0
 ------
 Changes:
