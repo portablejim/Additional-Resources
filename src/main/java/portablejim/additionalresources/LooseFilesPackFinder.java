@@ -1,9 +1,7 @@
 package portablejim.additionalresources;
 
-import net.minecraft.resources.FolderPack;
 import net.minecraft.resources.IPackFinder;
 import net.minecraft.resources.ResourcePackInfo;
-import net.minecraftforge.fml.packs.ResourcePackLoader;
 
 import java.util.Map;
 

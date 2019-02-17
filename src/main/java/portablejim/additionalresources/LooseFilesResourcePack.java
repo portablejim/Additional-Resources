@@ -46,27 +46,10 @@ public class LooseFilesResourcePack extends FolderPack {
         super(folder);
     }
 
-    // Minecraft likes to request the wrong file, try to correct it.
-    private ResourceLocation stripMcMeta(ResourceLocation input) {
-        final String mcm = ".mcmeta";
-        if(input != null && input.getPath() != null && input.getPath().length() > mcm.length() && input.getPath().endsWith(mcm)) {
-            return new ResourceLocation(input.getNamespace(), input.getPath().substring(0, input.getPath().length()-mcm.length()));
-        }
-        return input;
-    }
-
-    private String stripMcMeta(String input) {
-        final String mcm = ".mcmeta";
-        if(input != null && input != null && input.length() > mcm.length() && input.endsWith(mcm)) {
-            return input.substring(0, input.length()-mcm.length());
-        }
-        return input;
-    }
-
+    @SuppressWarnings("NullableProblems")
     @Override
     public InputStream getInputStream(String resourceLocation) throws IOException {
         String targetLocation = resourceLocation;
-        AdditionalResources.LOGGER.warn("Asked for file: " + resourceLocation);
         if(resourceLocation.startsWith("assets/"))
         {
             targetLocation = resourceLocation.substring("assets/".length());
@@ -76,32 +59,13 @@ public class LooseFilesResourcePack extends FolderPack {
             String pack_mcmeta = "{ \"pack\": { \"description\": \"Additional Resources resourcepack\", \"pack_format\": 4, \"_comment\": \"mods-resourcepacks\" } }";
             return new ByteArrayInputStream(pack_mcmeta.getBytes(StandardCharsets.UTF_8));
         }
-        InputStream stream = super.getInputStream((targetLocation));
-        //BufferedInputStream stream = new BufferedInputStream(new NullInputStream(0));
-        /*try {
-            ResourceLocation strippedLocation = stripMcMeta(resourceLocation);
-            if(!resourceExists(resourceLocation) && resourceExists(strippedLocation)) {
-                resourceLocation = strippedLocation;
-            }
-            File modFolder = new File(Ar_Reference.getDataFolder(), resourceLocation.getResourceDomain());
-            File targetFile = new File(modFolder, resourceLocation.getResourcePath());
-            stream = new BufferedInputStream(new FileInputStream(targetFile));
-        }
-        catch (Exception e) {
-            FMLLog.getLogger().error("Error reading resource " + resourceLocation.toString());
-        }
-        ResourceLocation strippedLocation = stripMcMeta(resourceLocation);
-        if(strippedLocation != resourceLocation) {
-            return getInputStream(strippedLocation);
-        }*/
-        AdditionalResources.LOGGER.warn(stream);
-        return stream;
+        return super.getInputStream(targetLocation);
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public boolean resourceExists(String resourceLocation) {
         String targetLocation = resourceLocation;
-        AdditionalResources.LOGGER.warn("Asked if file exists: " + resourceLocation);
         if(resourceLocation.startsWith("assets/"))
         {
             targetLocation = resourceLocation.substring("assets/".length());
@@ -110,19 +74,10 @@ public class LooseFilesResourcePack extends FolderPack {
         {
             return true;
         }
-        boolean output = super.resourceExists((targetLocation));
-        /*try {
-            File modFolder = new File(Ar_Reference.getDataFolder(), resourceLocation.getResourceDomain());
-            File targetFile = new File(modFolder, resourceLocation.getResourcePath());
-            return targetFile.exists();
-        }
-        catch (Exception e) {
-            FMLLog.getLogger().error("Error reading resource " + resourceLocation.toString());
-        }*/
-        AdditionalResources.LOGGER.warn(output);
-        return output;
+        return super.resourceExists(targetLocation);
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public Set<String> getResourceNamespaces(ResourcePackType type) {
         Set<String> set = Sets.newHashSet();
@@ -140,19 +95,13 @@ public class LooseFilesResourcePack extends FolderPack {
                 }
             }
         }
-        AdditionalResources.LOGGER.warn("Namespaces: " + type.getDirectoryName() + " => " + set.size());
-
         return set;
     }
 
     private void resourceWalk(File p_199546_1_, int p_199546_2_, String p_199546_3_, List<ResourceLocation> p_199546_4_, String p_199546_5_, Predicate<String> p_199546_6_) {
         File[] afile = p_199546_1_.listFiles();
-        AdditionalResources.LOGGER.warn("Walk1Pre1: " + p_199546_1_);
-        AdditionalResources.LOGGER.warn("Walk1Pre2: " + afile);
         if (afile != null) {
             for(File file1 : afile) {
-                AdditionalResources.LOGGER.warn("Walk1: " + "assets/" + p_199546_5_ + file1.getName());
-                AdditionalResources.LOGGER.warn("Walk2: " + p_199546_5_ + file1.getName());
                 if (file1.isDirectory()) {
                     if (p_199546_2_ > 0) {
                         this.resourceWalk(file1, p_199546_2_ - 1, p_199546_3_, p_199546_4_, p_199546_5_ + file1.getName() + "/", p_199546_6_);
@@ -169,8 +118,8 @@ public class LooseFilesResourcePack extends FolderPack {
 
     }
 
+    @SuppressWarnings("NullableProblems")
     public Collection<ResourceLocation> getAllResourceLocations(ResourcePackType type, String pathIn, int maxDepth, Predicate<String> filter) {
-        AdditionalResources.LOGGER.warn("WalkStart: " + type.getDirectoryName() + " - " + pathIn);
         List<ResourceLocation> output = Lists.newArrayList();
         if(type != null && "assets".equals(type.getDirectoryName()))
         {
@@ -178,66 +127,16 @@ public class LooseFilesResourcePack extends FolderPack {
                 this.resourceWalk(new File(new File(this.file, s), pathIn), maxDepth, s, output, pathIn + "/", filter);
             }
         }
-        AdditionalResources.LOGGER.warn("WalkFinish: " + output.size());
         return output;
     }
 
     public <T> T getMetadata(IMetadataSectionSerializer<T> deserializer) throws IOException {
-        T output = super.getMetadata(deserializer);
-        AdditionalResources.LOGGER.warn(deserializer.getSectionName());
-        return output;
+        return super.getMetadata(deserializer);
     }
 
+    @SuppressWarnings("NullableProblems")
     @OnlyIn(Dist.CLIENT)
     public InputStream getRootResourceStream(String fileName) throws IOException {
-        InputStream output = super.getRootResourceStream(fileName);
-        return output;
+        return super.getRootResourceStream(fileName);
     }
-
-
-
-
-
-
-    /*
-    @Override
-    public Set getResourceDomains() {
-        if(!Ar_Reference.getDataFolder().exists()) {
-            //noinspection ResultOfMethodCallIgnored
-            Ar_Reference.getDataFolder().mkdirs();
-        }
-
-        Set<String> modNames = new HashSet<String>();
-
-        try {
-            File configFolder = Ar_Reference.getDataFolder();
-            //noinspection ConstantConditions
-            for(File file : configFolder.listFiles()) {
-                if(file.isDirectory()) {
-                    modNames.add(file.getName());
-                }
-            }
-        }
-        catch (Exception e) {
-            FMLLog.getLogger().error("Additional Resources: Error listing config folder files");
-        }
-
-        return modNames;
-    }
-
-    @Override
-    public <T extends IMetadataSection> T getPackMetadata(MetadataSerializer metadataSerializer, String metadataSectionName) throws IOException {
-        String fakePackMeta = "" +
-                "{\n" +
-                "  'pack': { \n" +
-                "    'description': 'Additional resource files',\n" +
-                "    'pack_format': 2\n" +
-                "  }\n" +
-                "}";
-        fakePackMeta = fakePackMeta.replaceAll("'", "\"");
-        JsonObject fakePackMetaJson = new JsonParser().parse(fakePackMeta).getAsJsonObject();
-
-        return metadataSerializer.parseMetadataSection(metadataSectionName, fakePackMetaJson);
-    }
-    */
 }
