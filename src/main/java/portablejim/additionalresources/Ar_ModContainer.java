@@ -20,19 +20,14 @@ package portablejim.additionalresources;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import net.minecraftforge.fml.common.DummyModContainer;
-import net.minecraftforge.fml.common.FMLLog;
-import net.minecraftforge.fml.common.LoadController;
-import net.minecraftforge.fml.common.ModMetadata;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
 import net.minecraft.util.text.translation.LanguageMap;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.Arrays;
 
-public class Ar_ModContainer extends DummyModContainer {
+public class Ar_ModContainer {
+    /*
     public Ar_ModContainer() {
         super(new ModMetadata());
         ModMetadata metadata = getMetadata();
@@ -86,4 +81,5 @@ public class Ar_ModContainer extends DummyModContainer {
             }
         }
     }
+    */
 }

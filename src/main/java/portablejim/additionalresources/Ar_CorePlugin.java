@@ -18,30 +18,25 @@
 
 package portablejim.additionalresources;
 
-import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
 import java.io.File;
 import java.util.Map;
 
-public class Ar_CorePlugin implements IFMLLoadingPlugin {
+public class Ar_CorePlugin {
 
 
-    @Override
     public String[] getASMTransformerClass() {
         return new String[0];
     }
 
-    @Override
     public String getModContainerClass() {
         return "portablejim.additionalresources.Ar_ModContainer";
     }
 
-    @Override
     public String getSetupClass() {
         return null;
     }
 
-    @Override
     public void injectData(Map<String, Object> data) {
         String interestingKey = "mcLocation";
         if(data.containsKey(interestingKey) && data.get(interestingKey) instanceof File) {
@@ -53,7 +48,6 @@ public class Ar_CorePlugin implements IFMLLoadingPlugin {
         }
     }
 
-    @Override
     public String getAccessTransformerClass() {
         return null;
     }
